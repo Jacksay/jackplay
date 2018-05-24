@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Nouvelle playfile{% endblock %}
+
+{% block body %}
+    <table>
+        {% for playfile in playfiles %}
+        <tr>
+            <th>
+                {{ playfile.key }}
+            </th>
+            <td>
+                {{ playfile.title }}
+            </td>
+            <td>
+                {{ playfile.description }}
+            </td>
+            <td>
+                {{ playfile.content }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url('playfile_new') }}">Nouvelle playfile</a>
+{% endblock %}
