@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Playfile;
+use App\Service\Youtube;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,6 +50,22 @@ class PlayfileController extends Controller
        return $this->render('playfile/new.html.twig', [
           'form' => $form->createView()
        ]);
+    }
+
+    /**
+     * @Route("/admin/playfile/videosupdate/{playfileId}", name="playfile_update")
+     * @param $playfileId
+     */
+    public function updateVideos( $playfileId ){
+        /** @var Playfile $playfile */
+        $playfile = $this->getDoctrine()->getManager()->getRepository(Playfile::class)
+            ->find($playfileId);
+
+        /** @var Youtube $serviceYT */
+        $serviceYT = $this->container->get(Youtube::class);
+
+        $serviceYT->updatePlayfile($playfile->getKey());
+        die($playfileId);
     }
 
 

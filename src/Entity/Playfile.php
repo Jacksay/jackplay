@@ -28,9 +28,14 @@ class Playfile
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $keywords;
 
     /**
      * @ORM\Column(type="text")
@@ -41,6 +46,11 @@ class Playfile
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $key;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": true})
+     */
+    private $online = false;
 
     /**
      * @return mixed
@@ -121,6 +131,24 @@ class Playfile
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
+
+    /**
+     * @param mixed $keywords
+     */
+    public function setKeywords($keywords)
+    {
+        $this->keywords = $keywords;
+    }
+
+
 
 
 }
