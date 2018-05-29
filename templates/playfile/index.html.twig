@@ -18,6 +18,9 @@
             <td>
                 {{ playfile.content }}
             </td>
+            <td>
+                <a href="{{ url('playfile_update', { id: playfile.id}) }}">Mettre à jour</a>
+            </td>
         </tr>
         {% endfor %}
     </table>

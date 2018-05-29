@@ -53,19 +53,19 @@ class PlayfileController extends Controller
     }
 
     /**
-     * @Route("/admin/playfile/videosupdate/{playfileId}", name="playfile_update")
+     * @Route("/admin/playfile/videosupdate/{id}", name="playfile_update")
      * @param $playfileId
      */
-    public function updateVideos( $playfileId ){
+    public function updateVideos( $id ){
         /** @var Playfile $playfile */
         $playfile = $this->getDoctrine()->getManager()->getRepository(Playfile::class)
-            ->find($playfileId);
+            ->find($id);
 
         /** @var Youtube $serviceYT */
         $serviceYT = $this->container->get(Youtube::class);
 
         $serviceYT->updatePlayfile($playfile->getKey());
-        die($playfileId);
+        die($id);
     }
 
 

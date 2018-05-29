@@ -7,6 +7,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -51,6 +53,16 @@ class Playfile
      * @ORM\Column(type="boolean", options={"default": true})
      */
     private $online = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="playfile", orphanRemoval=true)
+     */
+    private $videos;
+
+    public function __construct()
+    {
+        $this->videos = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -146,6 +158,37 @@ class Playfile
     public function setKeywords($keywords)
     {
         $this->keywords = $keywords;
+    }
+
+    /**
+     * @return Collection|Video[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setPlayfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+            // set the owning side to null (unless already changed)
+            if ($video->getPlayfile() === $this) {
+                $video->setPlayfile(null);
+            }
+        }
+
+        return $this;
     }
 
 
