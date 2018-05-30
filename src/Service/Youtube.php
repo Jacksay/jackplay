@@ -9,11 +9,18 @@
 namespace App\Service;
 
 
+use Doctrine\ORM\EntityManager;
+
 class Youtube
 {
     private $API_KEY;
     private $googleClient;
     private $googleServiceYoutube;
+    private $entityManager;
+
+    private function getEntityManager(){
+        return $this->entityManager;
+    }
 
 
     /**
@@ -41,9 +48,10 @@ class Youtube
      * Youtube constructor.
      * @param $API_KEY
      */
-    public function __construct($apikey)
+    public function __construct($apikey, EntityManager $entityManager)
     {
         $this->API_KEY = $apikey;
+        $this->entityManager = $entityManager;
     }
 
 
