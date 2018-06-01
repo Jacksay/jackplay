@@ -10,7 +10,7 @@ security:
             memory:
                 users:
                     jackplay:
-                        password: $2y$12$2m91Tx52O8TZHcsXa/U78eJ/9HlO0W1baK5ECrAIwl83lso2oFqRq
+                        password: $2y$12$TIXt2Ea64.OvxKArR1naHuztXL4bZOVqwibb22ov5bPSenz9X1jku
                         roles: 'ROLE_ADMIN'
     firewalls:
         dev:

@@ -9,6 +9,8 @@
 namespace App\Service;
 
 
+use App\Entity\Playfile;
+use App\Entity\Video;
 use Doctrine\ORM\EntityManager;
 
 class Youtube
@@ -57,7 +59,14 @@ class Youtube
 
     public function updatePlayfile($playfileKey){
         $nextPageToken = '';
-        echo "<pre>";
+
+        /** @var Playfile $playfile */
+        $playfile = $this->getEntityManager()->getRepository(Playfile::class)->findOneBy([
+            'key' => $playfileKey
+        ]);
+
+
+
         do {
             $playlistItemsResponse = $this->getGoogleServiceYoutube()->playlistItems->listPlaylistItems('snippet', array(
                 'playlistId' => $playfileKey,
@@ -65,18 +74,29 @@ class Youtube
                 'pageToken' => $nextPageToken));
 
             foreach ($playlistItemsResponse['items'] as $playlistItem) {
+
                 $description = $playlistItem['snippet']["description"];
                 $title = $playlistItem['snippet']["title"];
                 $images = $playlistItem['snippet']["thumbnails"]["medium"]->url;
-                $publichedAt = $playlistItem['snippet']["publishedAt"];
+                $publishedAt = $playlistItem['snippet']["publishedAt"];
                 $videoId = $playlistItem['snippet']["resourceId"]->videoId;
-                //publishedAt
 
-                echo "<img src=\"$images\">";
+                $video = $this->getEntityManager()->getRepository(Video::class)->findOneBy(['videoId' => $videoId]);
+                if( !$video ){
+                    $video = new Video();
+                    $this->getEntityManager()->persist($video);
+                }
+                $video->setVideoId($videoId)
+                    ->setImage($images)
+                    ->setDescription($description)
+                    ->setPlayfile($playfile)
+                    ->setTitle($title)
+                    ->setPublishedAt(new \DateTime($publishedAt));
             }
-
             $nextPageToken = $playlistItemsResponse['nextPageToken'];
         } while ($nextPageToken <> '');
+
+        $this->getEntityManager()->flush();
         die($playfileKey);
     }
 

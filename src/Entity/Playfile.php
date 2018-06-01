@@ -50,6 +50,11 @@ class Playfile
     private $key;
 
     /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $slug;
+
+    /**
      * @ORM\Column(type="boolean", options={"default": true})
      */
     private $online = false;
@@ -62,6 +67,42 @@ class Playfile
     public function __construct()
     {
         $this->videos = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOnline()
+    {
+        return $this->online;
+    }
+
+    /**
+     * @param mixed $online
+     */
+    public function setOnline($online)
+    {
+        $this->online = $online;
+
+        return $this;
     }
 
     /**

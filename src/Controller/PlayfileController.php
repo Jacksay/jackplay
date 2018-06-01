@@ -22,6 +22,13 @@ class PlayfileController extends Controller
         ]);
     }
 
+    public function listPublicPlayfiles(){
+        $playfiles = $this->getDoctrine()->getRepository(Playfile::class)->findAll();
+        return $this->render('playfile/list.html.twig', [
+            'playfiles' => $playfiles
+        ]);
+    }
+
     /**
      * @Route("/admin/playfile/new", name="playfile_new")
      */
@@ -32,6 +39,7 @@ class PlayfileController extends Controller
        $form = $this->createFormBuilder($playfile)
            ->add('title', TextType::class)
            ->add('key', TextType::class)
+           ->add('slug', TextType::class)
            ->add('description', TextType::class)
            ->add('content', TextType::class)
            ->add('save', SubmitType::class, array('label' => 'Créer'))
@@ -50,6 +58,50 @@ class PlayfileController extends Controller
        return $this->render('playfile/new.html.twig', [
           'form' => $form->createView()
        ]);
+    }
+
+    /**
+     * @Route("/admin/playfile/edit/{id}", name="playfile_edit")
+     */
+    public function editPlayfile($id, Request $request)
+    {
+        /** @var Playfile $playfile */
+        $playfile = $this->getDoctrine()->getRepository(Playfile::class)->find($id);
+
+        $form = $this->createFormBuilder($playfile)
+            ->add('title', TextType::class)
+            ->add('key', TextType::class)
+            ->add('slug', TextType::class)
+            ->add('description', TextType::class)
+            ->add('content', TextType::class)
+            ->add('save', SubmitType::class, array('label' => 'Créer'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            return $this->redirectToRoute('playfile');
+        }
+
+        return $this->render('playfile/new.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/lets-play/{slug}.html", name="playfile_show")
+     * @param $playfileId
+     */
+    public function showPlayfile( $slug ){
+        /** @var Playfile $playfile */
+        $playfile = $this->getDoctrine()->getManager()->getRepository(Playfile::class)
+            ->findOneBy(['slug' => $slug]);
+        return $this->render('playfile/show.html.twig', [
+            'playfile' => $playfile
+        ]);
     }
 
     /**

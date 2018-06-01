@@ -13,13 +13,18 @@
                 {{ playfile.title }}
             </td>
             <td>
+                {{ playfile.videos.count }} vidéo(s)
+            </td>
+            <td>
                 {{ playfile.description }}
             </td>
             <td>
                 {{ playfile.content }}
             </td>
             <td>
-                <a href="{{ url('playfile_update', { id: playfile.id}) }}">Mettre à jour</a>
+                <a href="{{ url('playfile_update', { id: playfile.id}) }}" class="pure-button">Mettre à jour</a>
+                <a href="{{ url('playfile_edit', { id: playfile.id}) }}" class="pure-button">Éditer</a>
+                <a href="{{ url('playfile_show', { slug: playfile.slug}) }}" class="pure-button">Afficher</a>
             </td>
         </tr>
         {% endfor %}

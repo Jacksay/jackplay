@@ -1,0 +1,5 @@
+{%  for playfile in playfiles %}
+    <li class="pure-menu-item">
+        <a href="{{ url('playfile_show', {slug: playfile.slug}) }}" class="pure-menu-link">{{ playfile.title }}</a>
+    </li>
+{%  endfor %}

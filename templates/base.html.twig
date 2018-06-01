@@ -27,6 +27,7 @@
                   <li class="pure-menu-item {{ route starts with 'home' ? 'active pure-menu-selected' }}">
                     <a href="{{ url('home') }}" class="pure-menu-link">Accueil</a>
                   </li>
+                    {{ render(controller('App\\Controller\\PlayfileController::listPublicPlayfiles')) }}
                   <li class="pure-menu-item {{ route starts with 'about' ? 'active pure-menu-selected' }}">
                     <a href="{{ url('about') }}" class="pure-menu-link">A Propos</a>
                   </li>

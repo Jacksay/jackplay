@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ playfile.title }}{% endblock %}
+
+{% block headerTitle %}{{ playfile.title }}{% endblock %}
+{% block headerSubtitle %}{{ playfile.videos.count }} vidéo(s){% endblock %}
+
+{% block body %}
+    <div class="pure-g">
+
+    {% for video in playfile.videos %}
+        <article  class="pure-u-1-3 video">
+            <h2>{{ video.title }}</h2>
+            <a href="https://www.youtube.com/watch?v={{ video.videoId }}">
+            <img src="{{ video.image }}"/>
+            </a>
+        </article>
+    {% endfor %}
+    </div>
+{% endblock %}
